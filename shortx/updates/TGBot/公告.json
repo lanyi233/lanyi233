@@ -1,0 +1,17 @@
+{
+    "new_version": "6",
+    "board": {
+        "1": {
+            "Text": "1",
+            "key": "start"
+        },
+        "2": {
+            "Text": "2",
+            "key": "start"
+        },
+        "3": {
+            "Text": "3",
+            "key": "start"
+        }
+    }
+}
