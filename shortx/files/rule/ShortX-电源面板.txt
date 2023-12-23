@@ -1,0 +1,96 @@
+{
+  "facts": [{
+    "@type": "type.googleapis.com/AdvancedKeyEvent",
+    "keyCode": 26,
+    "gesture": "KeyLongPress",
+    "id": "F-ad025fec-5448-4cac-9e1b-d2d9345d6612"
+  }],
+  "actions": [{
+    "@type": "type.googleapis.com/Delay",
+    "timeString": "300",
+    "id": "A-a0ae30d2-a590-490a-9280-4166e84d95af"
+  }, {
+    "@type": "type.googleapis.com/InputTap",
+    "id": "A-4927b578-83fe-4f54-8a65-829f80bb1455"
+  }, {
+    "@type": "type.googleapis.com/ShowOverlayButton",
+    "buttonSettings": [{
+      "actions": [{
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "reboot -p",
+        "id": "A-7c23fd38-87dd-4fdc-b058-35c757e54e6d"
+      }],
+      "icon": "shut-down-line",
+      "label": "关机"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "reboot",
+        "id": "A-485fd38d-13a4-4f13-a15e-0794cff0678a"
+      }],
+      "icon": "restart-line",
+      "label": "重启"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "reboot recovery",
+        "id": "A-6a507c5e-32b4-4528-a39f-b263422a34b4"
+      }],
+      "icon": "device-recover-fill",
+      "label": "恢复模式"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "reboot bootloader",
+        "id": "A-148fba5c-7622-41dd-b9a5-f9421d309807"
+      }],
+      "icon": "code-box-fill",
+      "label": "引导模式"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "reboot fastboot",
+        "id": "A-4b0fa823-8cc1-4b5e-b08b-6d1f20710eef"
+      }],
+      "icon": "terminal-box-fill",
+      "label": "fastbootd"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/HideOverlayButton",
+        "id": "A-6e49bd00-66bb-45eb-bcd2-b7f2c61e3065"
+      }, {
+        "@type": "type.googleapis.com/ShellCommand",
+        "command": "killall -9 com.android.systemui",
+        "id": "A-3d14d1b7-3b1b-4381-928e-a44e0c990fc3"
+      }],
+      "icon": "smartphone-fill",
+      "label": "重启系统界面"
+    }, {
+      "actions": [{
+        "@type": "type.googleapis.com/HideOverlayButton",
+        "overlayTags": ["电源面板"],
+        "id": "A-2374529d-be90-4407-81b8-d947ba7a62b6"
+      }],
+      "icon": "logout-box-r-fill",
+      "label": "退出"
+    }],
+    "tag": "电源面板",
+    "id": "A-79ea4344-1a1c-46d8-8fe0-59748ba850f8"
+  }],
+  "id": "lingshang-powerpanel",
+  "lastUpdateTime": "1690901484549",
+  "createTime": "1690829978331",
+  "author": {
+    "name": "泠裳"
+  },
+  "title": "电源面板",
+  "description": "长按电源键提供更多选项",
+  "isEnabled": true,
+  "hook": {
+  },
+  "quit": {
+  },
+  "versionCode": "3"
+}
+###------###
+{"type":"rule"}
