@@ -2,16 +2,17 @@
     "new_version": "6",
     "board": {
         "1": {
-            "Text": "1",
-            "key": "start"
+            "Text": "查看最新版本",
+            "key": ""
         },
         "2": {
-            "Text": "2",
+            "Text": "null",
             "key": "start"
         },
         "3": {
-            "Text": "3",
+            "Text": "取消",
             "key": "start"
-        }
+        },
+        "notice": "测试公告\n此为一个测试文本，为以后的在线公告做基础"
     }
 }
