@@ -1,0 +1,493 @@
+{
+  log:
+  {
+    disabled: false
+    level: error
+    output: ./src/log/box.log
+    timestamp: true
+  }
+  dns:
+  {
+    fakeip:
+    {
+      enabled: true
+      inet4_range: 198.18.0.0/15
+      inet6_range: fc00::/18
+    }
+    servers:
+    [
+      {
+        tag: proxyServerNameServer
+        address: https://223.5.5.5/dns-query
+        detour: direct
+        strategy: prefer_ipv4
+        notice: 传送阵域名解析专用 DNS 服务器
+      }
+      {
+        tag: directDns
+        address: https://223.5.5.5/dns-query
+        detour: direct
+        notice: 大白嗓唱法使用的 DNS 服务器
+      }
+      {
+        tag: proxyDns
+        address: tcp://1.1.1.1
+        detour: proxy
+        notice: 国外 DNS 服务器
+      }
+      {
+        tag: GLOBALDns
+        address: tcp://1.1.1.1
+        detour: GLOBAL
+        notice: 学院派唱法使用的 DNS 服务器
+      }
+      {
+        enabled: false
+        tag: dhcp
+        address: dhcp://auto
+        notice: 向上游 dhcp 服务器发起 DNS 请求，因为有人过敏，默认关闭，有需要自行打开
+      }
+      {
+        enabled: false
+        tag: local
+        address: local
+        notice: 通过系统 DNS 发起 DNS 请求，因为有人过敏，默认关闭，有需要自行打开
+      }
+      {
+        enabled: true
+        tag: fakedns
+        address: fakeip
+        notice: fakeip 专用 DNS 服务器
+      }
+      {
+        tag: nxdomain
+        address: RCode://success
+        notice: 对域名解析返回空解析
+      }
+      {
+        tag: dnspod-udp
+        address: 119.29.29.29
+        detour: domestic
+      }
+      {
+        tag: dnspod-doh
+        address: https://120.53.53.53/dns-query
+        detour: domestic
+      }
+      {
+        tag: fiftythree
+        address: https://1.15.50.48/verse
+        detour: domestic
+      }
+    ]
+    rules:
+    [
+      {
+        outbound:
+        [
+          direct
+          OUTBOUNDLESS
+        ]
+        server: dnspod-udp
+        notice: 直连域名解析规则
+      }
+      {
+        outbound: any
+        server: proxyServerNameServer
+        disable_cache: true
+        notice: 传送阵域名解析规则
+      }
+      {
+        enabled: false
+        rule_set: category-ads-all-domain
+        server: nxdomain
+        notice: 通过 geosite 内建广告规则进行 DNS 层面的广告拦截，默认关闭，有需要自行打开
+      }
+      {
+        clash_mode: Direct
+        server: directDns
+      }
+      {
+        domain_suffix:
+        [
+          .msftncsi.com
+          .msftconnecttest.com
+        ]
+        server: dnspod-doh
+      }
+      {
+        query_type:
+        [
+          A
+          AAAA
+        ]
+        server: fakedns
+        rewrite_ttl: 0
+        notice: 对 A 和 AAAA 类型的 DNS 请求返回 fake-ip 以尽量减少本地 dns 解析并尽可能的将域名送向远端。
+      }
+      {
+        clash_mode: Global
+        server: GLOBALDns
+      }
+      {
+        rule_set:
+        [
+          proxy-domain
+          tiktok-domain
+        ]
+        server: proxyDns
+      }
+      {
+        domain: www.gstatic.com
+        server: dnspod-doh
+      }
+      {
+        rule_set:
+        [
+          push-domain
+          direct-domain
+          bytedance-domain
+          microsoft@cn-domain
+          apple@cn-domain
+          category-games@cn-domain
+          cn-domain
+        ]
+        server: dnspod-doh
+      }
+      {
+        rule_set: geolocation-!cn-domain
+        server: proxyDns
+      }
+      {
+        domain_regex: .
+        fallback_rule:
+        {
+          rule_set: cn-ip
+          invert: true
+        }
+        server: fiftythree
+      }
+    ]
+    final: proxyDns
+    strategy: ipv4_only
+    reverse_mapping: true
+    independent_cache: true
+    notice: 由于部分机器对 ipv6 解析过敏，默认设置为 ipv4_only，有需要可以自行修改
+  }
+  inbounds:
+  [
+    {
+      enabled: false
+      tag: tproxy
+      type: tproxy
+      listen: "::"
+      listen_port: 10086
+      sniff: true
+      always_resolve_udp: true
+      sniff_override_destination: false
+      sniff_override_rules:
+      [
+        {
+          rule_set:
+          [
+            push-domain
+            push-ip
+            skip-override
+          ]
+          invert: true
+        }
+      ]
+    }
+    {
+      enabled: true
+      tag: tun
+      type: tun
+      interface_name: tun1
+      inet4_address: 172.19.0.0/16
+      inet6_address: 2001:10::/28
+      strict_route: true
+      auto_route: true
+      stack: mixed
+      sniff: true
+      always_resolve_udp: true
+      sniff_override_destination: false
+      sniff_override_rules:
+      [
+        {
+          rule_set:
+          [
+            push-domain
+            push-ip
+            skip-override
+          ]
+          invert: true
+        }
+      ]
+    }
+  ]
+  outbounds:
+  [
+    {
+      tag: direct
+      type: direct
+    }
+    {
+      tag: block
+      type: block
+    }
+    {
+      tag: dns
+      type: dns
+    }
+    {
+      tag: proxy
+      type: selector
+    }
+    {
+      tag: domestic
+      type: selector
+      outbounds: direct
+    }
+    {
+      tag: GLOBAL
+      type: selector
+      providers: all
+    }
+  ]
+  route:
+  {
+    rule_set:
+    [
+      {
+        tag: category-ads-all-domain
+        path: ./RuleProviders/category-ads-all-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-category-ads-all.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: geolocation-!cn-domain
+        path: ./RuleProviders/geolocation-!cn-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-geolocation-!cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: tiktok-domain
+        path: ./RuleProviders/tiktok-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-tiktok@!cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: bytedance-domain
+        path: ./RuleProviders/bytedance-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-bytedance.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: apple@cn-domain
+        path: ./RuleProviders/apple@cn-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-apple@cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: microsoft@cn-domain
+        path: ./RuleProviders/microsoft@cn-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-microsoft@cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: category-games@cn-domain
+        path: ./RuleProviders/category-games@cn-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-category-games@cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: cn-domain
+        path: ./RuleProviders/cn-domain.srs
+        url: https://raw.githubusercontent.com/CHIZI-0618/v2ray-rules-dat/release/singbox_rule_set/geosite-cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: cn-ip
+        path: ./RuleProviders/cn-ip.srs
+        url: https://raw.githubusercontent.com/MetaCubeX/meta-rules-dat/sing/geo/geoip/cn.srs
+        type: remote
+        format: binary
+        download_detour: proxy
+        update_interval: 24h
+      }
+      {
+        tag: proxy-domain
+        path: ./RuleProviders/proxy-domain.json
+        type: local
+        format: source
+      }
+      {
+        tag: direct-domain
+        path: ./RuleProviders/direct-domain.json
+        type: local
+        format: source
+      }
+      {
+        tag: push-domain
+        path: ./RuleProviders/push-domain.json
+        type: local
+        format: source
+      }
+      {
+        tag: push-ip
+        path: ./RuleProviders/push-ip.json
+        type: local
+        format: source
+      }
+      {
+        tag: skip-override
+        path: ./RuleProviders/skip-override.json
+        type: local
+        format: source
+      }
+    ]
+    rules:
+    [
+      {
+        enabled: false
+        rule_set: category-ads-all-domain
+        outbound: block
+        notice: 广告拦截
+      }
+      {
+        protocol: dns
+        outbound: dns
+        notice: dns 解析劫持
+      }
+      {
+        clash_mode: Direct
+        outbound: direct
+      }
+      {
+        clash_mode: Global
+        outbound: GLOBAL
+      }
+      {
+        enabled: false
+        ip_version: 6
+        outbound: block
+        notice: 拦截 ipv6 流量
+      }
+      {
+        enabled: false
+        protocol: quic
+        outbound: block
+        notice: 拦截 quic 流量
+      }
+      {
+        rule_set:
+        [
+          proxy-domain
+          tiktok-domain
+        ]
+        outbound: proxy
+      }
+      {
+        rule_set:
+        [
+          push-domain
+          direct-domain
+          bytedance-domain
+          microsoft@cn-domain
+          apple@cn-domain
+          category-games@cn-domain
+          cn-domain
+        ]
+        outbound: domestic
+      }
+      {
+        rule_set: geolocation-!cn-domain
+        outbound: proxy
+        notice: 国外地址代理（减少域名解析）
+      }
+      {
+        ip_cidr:
+        [
+          0.0.0.0/8
+          127.0.0.0/8
+          192.168.0.0/16
+          "::/128"
+          "::1/128"
+          fc70::/10
+          fe80::/10
+        ]
+        outbound: direct
+        notice: 保留地址直连，若不免流可加入路由绕过地址
+      }
+      {
+        rule_set:
+        [
+          push-ip
+          cn-ip
+        ]
+        outbound: domestic
+        notice: cn ip 和 apple push ip 分流。
+      }
+      {
+        ip_is_private: true
+        outbound: domestic
+        notice: private ip 分流。
+      }
+    ]
+    final: proxy
+    auto_detect_interface: true
+    find_process: true
+    default_mark: 2333
+  }
+  experimental:
+  {
+    cache_file:
+    {
+      enabled: true
+      path: ./src/cache.db
+    }
+    clash_api:
+    {
+      external_controller: 127.0.0.1:9909
+      external_ui: Dashboard
+      secret: singBox
+    }
+  }
+  packages_list:
+  {
+    mode: black
+    black: []
+    white: []
+    notice:
+      '''
+      mode 有两个值，black or white
+      两个数组分别对应黑名单和白名单，目前名单里只允许填写包名
+      上个版本的 list 会根据 mode 自动转换成 black 和 white 两个数组里的值
+      '''
+  }
+  outbound_providers: []
+}
