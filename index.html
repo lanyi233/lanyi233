@@ -5,43 +5,46 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      background-color: #F0F0F0;
-      margin: 0;
-      padding: 0;
     }
     h1 {
       color: #FF3366;
       text-align: center;
-      margin-top: 50px;
     }
     img {
-      display: block;
-      margin: 0 auto;
-      max-width: 100%;
-      border: 2px solid #FF3366;
-      border-radius: 10px;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      width: 100%;
     }
-    ul {
-      list-style-type: disc;
-      margin-top: 30px;
-      margin-left: 50px;
+    /* 对于PC设备，宽度大于600px时应用以下样式 */
+    @media (min-width: 600px) {
+      body {
+        background-color: #F0F0F0;
+        margin: 0;
+        padding: 0;
+      }
+      h1 {
+        margin-top: 50px;
+      }
+      img {
+        max-width: 100%;
+        border: 2px solid #FF3366;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+      }
     }
-    table {
-      width: 80%;
-      margin: 30px auto;
-      border-collapse: collapse;
-      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-    th, td {
-      border: 1px solid #FF3366;
-      padding: 10px;
-      text-align: center;
-    }
-    p {
-      text-align: center;
-      margin-top: 30px;
-      font-size: 18px;
+    /* 对于移动设备，宽度小于600px时应用以下样式 */
+    @media (max-width: 599px) {
+      body {
+        background-color: #FFFFFF;
+        padding: 10px;
+      }
+      h1 {
+        margin-top: 20px;
+        font-size: 24px;
+      }
+      img {
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+      }
     }
   </style>
 </head>
