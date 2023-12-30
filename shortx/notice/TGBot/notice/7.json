@@ -1,11 +1,11 @@
 {
     "update": "no",
     "url": {
-        "telegram": "https://t.me/lanyi233_Group/3/11?single",
+        "telegram": "https://t.me/lanyi233_Group/3/13",
         "github": "https://lanyi233.github.io/lanyi233/shortx/updates/TGBot/files/7.txt"
     },
     "update_notice": {
         "title": "应用行为_通知转发至TGBot（V7）",
-        "Text": " - 新增在线公告\n- 修复部分bug"
+        "Text": " - 新增在线公告\n- 修复部分bug\n- 开机推送时开机后并且有网络，30秒后再进行发送"
     }
 }
