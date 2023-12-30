@@ -1,9 +1,9 @@
 {
-    "new_version": "6",
+    "new_version": "7",
     "board": {
         "1": {
             "Text": "查看最新版本",
-            "key": "https://lanyi233.github.io/lanyi233/shortx/updates/TGBot/notice/6.json"
+            "key": "https://lanyi233.github.io/lanyi233/shortx/notice/TGBot/notice/7.json"
         },
         "2": {
             "Text": "​",
@@ -15,7 +15,7 @@
         }
     },
     "notice": {
-        "title": "在线公告",
-        "Text": "测试公告\n此为一个测试文本，为以后的在线公告做基础"
+        "title": "TGBot-在线公告",
+        "Text": "新版本！（V7）\n新增在线公告\n修复部分bug\n\n还有 祝各位新年快乐，万事如意！"
     }
 }

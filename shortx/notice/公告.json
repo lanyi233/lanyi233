@@ -1,21 +1,20 @@
 {
-    "new_version": "6",
     "board": {
         "1": {
-            "Text": "查看最新版本",
-            "key": "https://lanyi233.github.io/lanyi233/shortx/updates/TGBot/notice/6.json"
+            "Text": "",
+            "key": "start"
         },
         "2": {
-            "Text": "​",
+            "Text": "",
             "key": "start"
         },
         "3": {
-            "Text": "取消",
+            "Text": "关闭",
             "key": "start"
         }
     },
     "notice": {
-        "title": "在线公告",
-        "Text": "测试公告\n此为一个测试文本，为以后的在线公告做基础"
+        "title": "全局-在线公告",
+        "Text": "祝各位新年快乐！\n\n2023-12-30"
     }
 }
