@@ -5,57 +5,49 @@
   <style>
     body {
       font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #F0F0F0;
+      margin: 0;
+      padding: 20px;
     }
     h1 {
       color: #FF3366;
-      text-align: center;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
     img {
       width: 100%;
+      max-width: 600px;
     }
-    /* 对于PC设备，宽度大于600px时应用以下样式 */
-    @media (min-width: 600px) {
-      body {
-        background-color: #F0F0F0;
-        margin: 0;
-        padding: 0;
-      }
-      h1 {
-        margin-top: 50px;
-      }
-      img {
-        max-width: 100%;
-        border: 2px solid #FF3366;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-      }
+    p, a {
+      font-size: 18px;
+      margin-bottom: 10px;
     }
-    /* 对于移动设备，宽度小于600px时应用以下样式 */
-    @media (max-width: 599px) {
-      body {
-        background-color: #FFFFFF;
-        padding: 10px;
-      }
-      h1 {
-        margin-top: 20px;
-        font-size: 24px;
-      }
-      img {
-        border: none;
-        border-radius: 0;
-        box-shadow: none;
-      }
+    ul {
+      list-style-type: none;
+      padding: 0;
+      margin-bottom: 10px;
+    }
+    li {
+      margin-bottom: 5px;
+    }
+    table {
+      width: 100%;
+      margin-bottom: 20px;
+    }
+    th, td {
+      padding: 5px;
     }
   </style>
 </head>
 <body>
   <h1>欢迎来到我的私人网站！</h1>
   
-  <h2 style="text-align:center;">这是一个图片</h2>
+  <h2>这是一个图片</h2>
   <img src="图片链接" alt="图片描述">
   
-  <h2 style="text-align: center;">这是一个超链接</h2>
-  <p style="text-align:center;"><a href="链接地址">链接文本</a></p>
+  <h2>这是一个超链接</h2>
+  <p><a href="链接地址">链接文本</a></p>
   
   <h2>这是一个无序列表</h2>
   <ul>
