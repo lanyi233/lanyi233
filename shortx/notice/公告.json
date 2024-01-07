@@ -1,11 +1,11 @@
 {
     "board": {
         "1": {
-            "Text": "",
+            "Text": "寄）",
             "key": "start"
         },
         "2": {
-            "Text": "",
+            "Text": "寄（",
             "key": "start"
         },
         "3": {

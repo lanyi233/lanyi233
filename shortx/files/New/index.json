@@ -157,8 +157,8 @@
       "fileUrl": "ShortX-应用行为、通知转发至TGBot.txt",
       "title": "应用行为、通知转发至TGBot",
       "description": "将指定应用的状态、通知消息转发至TGBot",
-      "versionCode": 7,
-      "updateTimeMillis": 1703940527283,
+      "versionCode": 6,
+      "updateTimeMillis": 1703261414524,
       "author": "lanyi233",
       "tags": []
     },
@@ -210,16 +210,6 @@
       "versionCode": 6,
       "updateTimeMillis": 1696850479780,
       "author": "Rarlya",
-      "tags": []
-    },
-    {
-      "id": "rule-378e112b-6d99-4ea4-9ab1-8861663d3f51",
-      "fileUrl": "ShortX-谷歌服务基础.txt",
-      "title": "谷歌服务基础",
-      "description": "使用前请确认打开Shell命令引擎开关",
-      "versionCode": 1,
-      "updateTimeMillis": 1703988766737,
-      "author": "ShortX",
       "tags": []
     },
     {
