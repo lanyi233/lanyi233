@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Telegram lamyi233の红包</title>
+<style>
+  body, html {
+    height: 100%;
+    margin: 0;
+  }
+  .bg-image {
+    /* 背景图样式 */
+    height: 100%; 
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+  }
+  .bg-overlay {
+    background: rgba(255,0,0,1);
+    background: linear-gradient(0deg, rgba(255,0,0,1) 0%, rgba(255,0,0,0) 100%);
+    color: white;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+  }
+  .red-envelope {
+    cursor: pointer;
+    /* 这里替换成你自己的图片链接 */
+    background-image: url('path-to-your-image.jpg');
+    width: 300px; /* 需要根据你的图片尺寸调整 */
+    height: 200px; /* 需要根据你的图片尺寸调整 */
+    background-size: cover;
+  }
+  .hidden {
+    display: none;
+  }
+</style>
+<script>
+  function claimRedEnvelope() {
+    alert('您的Telegram客户端版本过低，需要更新以领取');
+  }
+</script>
+</head>
+<body>
+
+<div class="bg-image">
+  <div class="bg-overlay">
+    <div class="red-envelope" onclick="claimRedEnvelope()">
+      <!-- 这里放置点击区域，如红包图片 -->
+    </div>
+    <p>领取红包</p>
+  </div>
+</div>
+
+</body>
+</html>
