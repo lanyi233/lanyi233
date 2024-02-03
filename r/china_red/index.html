@@ -33,18 +33,22 @@
     border-radius: 10px; /* 图片圆角 */
     margin-bottom: 10px; /* 文本和图片的间距 */
   }
-  .toast {
-    display: none;
-    position: fixed;
-    bottom: 0;
-    left: 50%;
-    transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.75); /* 半透明黑色背景 */
-    padding: 12px 24px;
-    border-radius: 16px;
-    margin-bottom: 20px;
-    animation: slide-up 0.5s both;
-  }
+    .toast {
+      display: none;
+      position: fixed;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.75); /* 半透明黑色背景 */
+      padding: 12px 24px;
+      border-radius: 16px;
+      margin-bottom: 20px;
+      animation: slide-up 0.5s both;
+      width: auto; /* 自适应宽度 */
+      max-width: 80%; /* 最大宽度不超过屏幕宽度的80% */
+      box-sizing: border-box; /* 确保宽度包括padding */
+      text-align: center; /* 居中文本 */
+    }
   @keyframes slide-up {
     from {
       opacity: 0;
