@@ -3,37 +3,36 @@
 <head>
 <meta charset="UTF-8">
 <title>Telegram lamyi233の红包</title>
+<link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
 <style>
   body, html {
     height: 100%;
     margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background: #0088cc; /* Telegram 的蓝色 */
+    color: white;
   }
   .bg-image {
-    /* 背景图样式 */
-    height: 100%; 
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-  }
-  .bg-overlay {
-    background: rgba(255,0,0,1);
-    background: linear-gradient(0deg, rgba(255,0,0,1) 0%, rgba(255,0,0,0) 100%);
-    color: white;
     height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
   }
+  .bg-overlay {
+    background: rgba(255,255,255,0.1); /* 让背景有一点 Telegram 式的透明度 */
+    border-radius: 15px; /* 添加圆角 */
+    padding: 20px;
+    box-shadow: 0 4px 16px rgba(0,0,0,0.25); /* 添加阴影 */
+  }
   .red-envelope {
     cursor: pointer;
     background-image: url('https://ipfs.mbzj.org/ipfs/QmXSMHKqe5QZa7HwoDv2v4qEaQbHVnD9gTHqyHEn7iS2fB.jpg');
-    width: 300px; /* 需要根据你的图片尺寸调整 */
-    height: 200px; /* 需要根据你的图片尺寸调整 */
+    width: 250px;
+    height: 150px;
     background-size: cover;
-  }
-  .hidden {
-    display: none;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
   }
 </style>
 <script>
@@ -49,7 +48,7 @@
     <div class="red-envelope" onclick="claimRedEnvelope()">
       <!-- 这里放置点击区域，如红包图片 -->
     </div>
-    <p>领取红包</p>
+    <p>点击领取红包</p>
   </div>
 </div>
 
