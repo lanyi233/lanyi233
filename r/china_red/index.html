@@ -11,45 +11,70 @@
     font-family: 'Roboto', sans-serif;
     background: #0088cc; /* Telegram 的蓝色 */
     color: white;
-  }
-  .bg-image {
-    height: 100%;
     display: flex;
     justify-content: center;
-    align-items: center;
-    flex-direction: column;
+    align-items: center; /* 增加flexbox样式以居中 */
+    text-align: center; /* 文本居中 */
   }
-  .bg-overlay {
-    background: rgba(255,255,255,0.1); /* 让背景有一点 Telegram 式的透明度 */
-    border-radius: 15px; /* 添加圆角 */
+  .container {
+    cursor: pointer;
+    background: white;
+    border-radius: 16px;
     padding: 20px;
-    box-shadow: 0 4px 16px rgba(0,0,0,0.25); /* 添加阴影 */
+    width: 250px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+    transition: box-shadow 0.3s ease; /* 为了交互效果添加过渡动画 */
+  }
+  .container:hover {
+    box-shadow: 0 6px 12px rgba(0,0,0,0.3); /* 鼠标悬停时改变阴影 */
   }
   .red-envelope {
-    cursor: pointer;
-    background-image: url('https://ipfs.mbzj.org/ipfs/QmXSMHKqe5QZa7HwoDv2v4qEaQbHVnD9gTHqyHEn7iS2fB.jpg');
-    width: 250px;
-    height: 150px;
-    background-size: cover;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    width: 100%; /* 图片宽度匹配容器 */
+    border-radius: 10px; /* 图片圆角 */
+    margin-bottom: 10px; /* 文本和图片的间距 */
+  }
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75); /* 半透明黑色背景 */
+    padding: 12px 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    animation: slide-up 0.5s both;
+  }
+  @keyframes slide-up {
+    from {
+      opacity: 0;
+      transform: translate(-50%, 20px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
   }
 </style>
 <script>
-  function claimRedEnvelope() {
-    alert('您的Telegram客户端版本过低，需要更新以领取');
+  function showTelegramToast() {
+    var toast = document.getElementById('telegramToast');
+    toast.style.display = 'block';
+    setTimeout(function(){
+      toast.style.display = 'none';
+    }, 3000);
   }
 </script>
 </head>
 <body>
 
-<div class="bg-image">
-  <div class="bg-overlay">
-    <div class="red-envelope" onclick="claimRedEnvelope()">
-      <!-- 这里放置点击区域，如红包图片 -->
-    </div>
-    <p>点击领取红包</p>
-  </div>
+<div class="container" onclick="showTelegramToast()">
+  <img src="https://ipfs.mbzj.org/ipfs/QmXSMHKqe5QZa7HwoDv2v4qEaQbHVnD9gTHqyHEn7iS2fB.jpg" alt="领取红包" class="red-envelope">
+  <p>点击领取红包</p>
+</div>
+
+<div id="telegramToast" class="toast">
+  您的Telegram客户端版本过低，需要更新以领取。
 </div>
 
 </body>
