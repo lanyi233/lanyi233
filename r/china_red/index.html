@@ -61,36 +61,51 @@
   }
 </style>
 <script>
-  // Check the browser's language and display the message accordingly
-  function getLanguage() {
-    // Get browser language
-    var userLang = navigator.language || navigator.userLanguage; 
-    // Check if the leading language is Chinese
-    return userLang.startsWith('zh') ? '您的Telegram客户端版本过低，需要更新以领取。' : 'Your Telegram client version is too low, please update to claim.';
+  let clickCounter = 0; // 初始化点击计数器
+
+  // 点击处理函数
+  function onEnvelopeClick() {
+    // 增加点击次数
+    clickCounter++;
+    // 显示提示信息
+    showTelegramToast();
+    // 如果点击次数达到10次，则跳转到指定的URL
+    if (clickCounter >= 10) {
+      window.location.href = 'https://ys.mihoyo.com';
+    }
   }
 
-  // Function to show the toast message
+  // 显示提示信息的函数
   function showTelegramToast() {
     var toast = document.getElementById('telegramToast');
-    // Set the message based on the browser's language
+    // 设置根据用户浏览器语言设置的提示信息
     toast.textContent = getLanguage();
+    // 显示提示信息
     toast.style.display = 'block';
-    // Hide the toast message after 3 seconds
-    setTimeout(function(){
+    // 3秒后隐藏提示信息
+    setTimeout(function() {
       toast.style.display = 'none';
     }, 3000);
   }
+
+  // 定义获取提示信息语言的函数
+  function getLanguage() {
+    var userLang = navigator.language || navigator.userLanguage;
+    // 根据浏览器语言判断提示信息语言
+    return userLang.startsWith('zh') ? '您的Telegram客户端版本过低，需要更新以领取。' : 'Your Telegram client version is too low, please update to claim.';
+  }
+  
 </script>
 </head>
 <body>
 
-<div class="container" onclick="showTelegramToast()">
+<div class="container" onclick="onEnvelopeClick()">
   <img src="https://ipfs.mbzj.org/ipfs/QmXSMHKqe5QZa7HwoDv2v4qEaQbHVnD9gTHqyHEn7iS2fB.jpg" alt="领取红包" class="red-envelope">
   <p>点击领取红包</p>
 </div>
 
 <div id="telegramToast" class="toast">
-  <!-- The message will be set based on the browser's language when the script runs -->
+  <!-- 提示信息内容将由 getLanguage 函数设置 -->
 </div>
 
 </body>
