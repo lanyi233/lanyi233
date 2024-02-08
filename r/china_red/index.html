@@ -33,22 +33,22 @@
     border-radius: 10px; /* 图片圆角 */
     margin-bottom: 10px; /* 文本和图片的间距 */
   }
-    .toast {
-      display: none;
-      position: fixed;
-      bottom: 0;
-      left: 50%;
-      transform: translateX(-50%);
-      background: rgba(0, 0, 0, 0.75); /* 半透明黑色背景 */
-      padding: 12px 24px;
-      border-radius: 16px;
-      margin-bottom: 20px;
-      animation: slide-up 0.5s both;
-      width: auto; /* 自适应宽度 */
-      max-width: 80%; /* 最大宽度不超过屏幕宽度的80% */
-      box-sizing: border-box; /* 确保宽度包括padding */
-      text-align: center; /* 居中文本 */
-    }
+  .toast {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0, 0, 0, 0.75); /* 半透明黑色背景 */
+    padding: 12px 24px;
+    border-radius: 16px;
+    margin-bottom: 20px;
+    animation: slide-up 0.5s both;
+    width: auto; /* 自适应宽度 */
+    max-width: 80%; /* 最大宽度不超过屏幕宽度的80% */
+    box-sizing: border-box; /* 确保宽度包括padding */
+    text-align: center; /* 居中文本 */
+  }
   @keyframes slide-up {
     from {
       opacity: 0;
@@ -61,9 +61,21 @@
   }
 </style>
 <script>
+  // Check the browser's language and display the message accordingly
+  function getLanguage() {
+    // Get browser language
+    var userLang = navigator.language || navigator.userLanguage; 
+    // Check if the leading language is Chinese
+    return userLang.startsWith('zh') ? '您的Telegram客户端版本过低，需要更新以领取。' : 'Your Telegram client version is too low, please update to claim.';
+  }
+
+  // Function to show the toast message
   function showTelegramToast() {
     var toast = document.getElementById('telegramToast');
+    // Set the message based on the browser's language
+    toast.textContent = getLanguage();
     toast.style.display = 'block';
+    // Hide the toast message after 3 seconds
     setTimeout(function(){
       toast.style.display = 'none';
     }, 3000);
@@ -78,7 +90,7 @@
 </div>
 
 <div id="telegramToast" class="toast">
-  您的Telegram客户端版本过低，需要更新以领取。
+  <!-- The message will be set based on the browser's language when the script runs -->
 </div>
 
 </body>
