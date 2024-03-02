@@ -1,5 +1,5 @@
 # 你的GitHub令牌
-TOKEN="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"
+TOKEN=""
 
 # 仓库拥有者和仓库名称
 REPO_OWNER="sub-store-org"
