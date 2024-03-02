@@ -41,5 +41,5 @@ if [ -n "$download_url" ]; then
     echo "[✓][📥]已下载sub-store最新版本\n•==========•\n"
   fi
 else
-  echo "[×]不存在资源 $ASSET_NAME 或你的节点不支持无GitHub Token调用api，\n请编辑脚本第一行添加你的Token\n•=========•\n"
+  echo "\n[×]不存在资源 $ASSET_NAME 或你的节点不支持无GitHub Token调用api，\n请编辑脚本第一行添加你的Token\n•=========•\n"
 fi
