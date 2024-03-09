@@ -38,13 +38,15 @@ ver="version"
 
 
 WCfind(){
-echo "[🔎]正在寻找Wget与Curl"
+echo "[🔎]正在寻找 [ ]Wget [ ]Curl"
 # 检测并安装wget
 # if [[ -z $(which wget) ]] ; then
+    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl"
     apt-get install wget -y >> /dev/null
 # fi
 # 检测并安装curl
 # if [[ -z $(which curl) ]]; then
+    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl"
     apt-get install curl -y >> /dev/null
 # fi
 echo "\033[1A\033[K"
@@ -55,7 +57,7 @@ echo "\033[1A\033[K[🔎]正在拉取资源"
 LATEST_RELEASE_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest"
 
 # 尝试获取最新发行版信息
-response=$(curl -s -H "Authorization: token $TOKEN" $LATEST_RELEASE_URL)
+response=$(curl -s $LATEST_RELEASE_URL || curl -s -H "Authorization: token $TOKEN" $LATEST_RELEASE_URL)
 
 # 获取版本号
 version=$(echo $response | jq .tag_name --raw-output)
@@ -69,7 +71,7 @@ old_version=$(cat ${ver})
     # 获取资产数组
     assets_url=$(echo $response | jq .assets_url --raw-output)
     # 使用curl获取资产信息
-    assets_response=$(curl -s -H "Authorization: token $TOKEN" $assets_url)
+    assets_response=$(curl -s $assets_url || curl -s -H "Authorization: token $TOKEN" $assets_url)
     # 查找并获取其下载URL
     download_url=$(echo $assets_response | jq --arg ASSET_NAME "$ASSET_NAME" '.[] | select(.name == $ASSET_NAME) | .browser_download_url' --raw-output)
 # 比较版本号
@@ -84,7 +86,7 @@ if [ "$version" != "$old_version" ]; then
         # 写入更新日志到log.txt
         echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新版本 ${old_version} >> ${version}" >> log.txt
     else
-        echo "\033[1A\033[K•==========•\n[×]不存在资源 $ASSET_NAME 或你的节点不支持无GitHub Token调用api，\n请编辑脚本第一行添加你的Token\n•=========•\n"
+        echo "\033[1A\033[K•==========•\n[×]不存在资源 “$ASSET_NAME”，可能的原因：\n- 你的节点不支持无GitHub Token调用api，请编辑脚本第一行添加你的Token\n- 拉取时间过长，请重新执行脚本\n•=========•\n"
     fi
 else
     echo "\033[1A\033[K•==========•\n[📎]当前版本“($old_version)”已是最新，无需更新。\nURL: ${download_url}"
