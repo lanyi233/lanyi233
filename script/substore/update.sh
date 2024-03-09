@@ -7,7 +7,7 @@ TOKEN=""
 REPO_OWNER="sub-store-org"
 REPO_NAME="Sub-Store"
 ASSET_NAME="sub-store.bundle.js"
-# 版本号存储文件每次
+# 版本号存储文件
 ver="version"
 
 
@@ -38,16 +38,21 @@ ver="version"
 
 
 WCfind(){
-echo "[🔎]正在寻找 [ ]Wget [ ]Curl"
+echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq"
 # 检测并安装wget
 # if [[ -z $(which wget) ]] ; then
-    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl"
     apt-get install wget -y >> /dev/null
+    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl [ ]jq"
 # fi
 # 检测并安装curl
 # if [[ -z $(which curl) ]]; then
-    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl"
     apt-get install curl -y >> /dev/null
+    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl []jq"
+# fi
+# 检测并安装jq
+# if [[ -z $(which jq) ]]; then
+    apt-get install jq -y >> /dev/null
+    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq"
 # fi
 echo "\033[1A\033[K"
 }
