@@ -38,7 +38,9 @@ script_version="v4"
 
 
 
-
+if [ -n "$1" ]; then
+    TOKEN="$1"
+fi
 WCfind(){
     echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr"
     # 检测并安装wget
@@ -51,10 +53,10 @@ WCfind(){
         apt-get install jq -y >> /dev/null
         echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [ ]Tail [ ]Tr"
     # 检测并安装tail
-        apt-get install coreutils -y >> /dev/null # tail通常是coreutils包的一部分
+        apt-get install coreutils -y >> /dev/null
         echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [✓]Tail [ ]Tr"
     # 检测并安装tr
-        apt-get install coreutils -y >> /dev/null # tr通常也是coreutils包的一部分
+        apt-get install coreutils -y >> /dev/null
         echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [✓]Tail [✓]Tr"
 }
 WCfind
