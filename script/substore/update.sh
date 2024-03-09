@@ -9,6 +9,8 @@ REPO_NAME="Sub-Store"
 ASSET_NAME="sub-store.bundle.js"
 # 版本号存储文件
 ver="version"
+# 脚本版本号
+script_version="4"
 
 
 
@@ -38,23 +40,32 @@ ver="version"
 
 
 WCfind(){
-echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq"
-# 检测并安装wget
-# if [[ -z $(which wget) ]] ; then
-    apt-get install wget -y >> /dev/null
-    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl [ ]jq"
-# fi
-# 检测并安装curl
-# if [[ -z $(which curl) ]]; then
-    apt-get install curl -y >> /dev/null
-    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl []jq"
-# fi
-# 检测并安装jq
-# if [[ -z $(which jq) ]]; then
-    apt-get install jq -y >> /dev/null
-    echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq"
-# fi
-echo "\033[1A\033[K"
+    echo -e \033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr # 更新进度条
+    # 检测并安装wget
+    if [[ -z $(which wget) ]] ; then
+        apt-get install wget -y >> /dev/null
+        echo -e \033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr # 更新进度条
+    fi
+    # 检测并安装curl
+    if [[ -z $(which curl) ]]; then
+        apt-get install curl -y >> /dev/null
+        echo -e \033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [ ]jq [ ]Tail [ ]Tr # 更新进度条
+    fi
+    # 检测并安装jq
+    if [[ -z $(which jq) ]]; then
+        apt-get install jq -y >> /dev/null
+        echo -e \033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [ ]Tail [ ]Tr # 更新进度条
+    fi
+    # 检测并安装tail
+    if [[ -z $(which tail) ]]; then
+        apt-get install coreutils -y >> /dev/null # tail通常是coreutils包的一部分
+        echo -e \033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [✓]Tail [ ]Tr # 更新进度条
+    fi
+    # 检测并安装tr
+    if [[ -z $(which tr) ]]; then
+        apt-get install coreutils -y >> /dev/null # tr通常也是coreutils包的一部分
+        echo -e \033[1A\033[K[🔎]正在寻找[✓]Wget [✓]Curl [✓]jq [✓]Tail [✓]Tr # 更新进度条
+    fi
 }
 WCfind
 echo "\033[1A\033[K[🔎]正在拉取资源"
@@ -91,8 +102,32 @@ if [ "$version" != "$old_version" ]; then
         # 写入更新日志到log.txt
         echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新版本 ${old_version} >> ${version}" >> log.txt
     else
-        echo "\033[1A\033[K•==========•\n[×]不存在资源 “$ASSET_NAME”，可能的原因：\n- 你的节点不支持无GitHub Token调用api，请编辑脚本第一行添加你的Token\n- 拉取时间过长，请重新执行脚本\n•=========•\n"
+        echo "\033[1A\033[K•==========•\n[×]不存在资源 “$ASSET_NAME”，可能的原因：\n- 你的节点不支持无GitHub Token调用api，请编辑脚本第一行添加你的Token\n- 拉取时间过长，请重新执行脚本\n•=========•"
     fi
 else
-    echo "\033[1A\033[K•==========•\n[📎]当前版本“($old_version)”已是最新，无需更新。\nURL: ${download_url}"
+    echo "\n•=========••==========•\n[📎]当前版本“($old_version)”已是最新，无需更新。\nURL: ${download_url}\n•=========•"
 fi
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh | tail -n 1)
+online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
+if [ "$script_version" != "$online_version" ]; then
+    echo "[⌛]检测到脚本新版本，正在更新"
+    curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update.sh
+    echo "[🌐]更新完成 [$script_version >> $online_version]"
+fi
+#v4
