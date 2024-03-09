@@ -85,7 +85,7 @@ if [ "$version" != "$old_version" ]; then
     if [ -n "$download_url" ]; then
         echo "•==========•\n获取 ${ASSET_NAME} 最新版本下载链接\n版本: ${version}\nURL: ${download_url}\n•==========•"
         wget -q --show-progress $download_url -O ${ASSET_NAME}
-        echo "•==========•\n[✓][🆕]已更新sub-store为最新版本 $old_version >> $version]\n•==========•\n"
+        echo "•==========•\n[✓][🆕]已更新sub-store为最新版本 [$old_version >> $version]\n•==========•\n"
         # 更新version.txt
         echo $version > ${ver}
         # 写入更新日志到log.txt
