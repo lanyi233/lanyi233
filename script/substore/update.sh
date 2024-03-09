@@ -10,7 +10,7 @@ ASSET_NAME="sub-store.bundle.js"
 # 版本号存储文件
 ver="version"
 # 脚本版本号
-script_version="v5"
+script_version="v4"
 
 
 
@@ -59,13 +59,17 @@ WCfind(){
 }
 WCfind
 echo "\033[1A\033[K[🔎]正在拉取资源"
+
 # 获取最新发行版的API URL
+echo "\033[1A\033[K[🔎]正在拉取资源 [API URL]"
 LATEST_RELEASE_URL="https://api.github.com/repos/$REPO_OWNER/$REPO_NAME/releases/latest"
 
 # 尝试获取最新发行版信息
+echo "\033[1A\033[K[🔎]正在拉取资源 [GET Info]"
 response=$(curl -s $LATEST_RELEASE_URL || curl -s -H "Authorization: token $TOKEN" $LATEST_RELEASE_URL)
 
 # 获取版本号
+echo "\033[1A\033[K[🔎]正在拉取资源 [Version]"
 version=$(echo $response | jq .tag_name --raw-output)
 # 检查version.txt是否存在，不存在则创建
 if [ ! -f ${ver} ]; then
@@ -79,6 +83,7 @@ old_version=$(cat ${ver})
     # 使用curl获取资产信息
     assets_response=$(curl -s $assets_url || curl -s -H "Authorization: token $TOKEN" $assets_url)
     # 查找并获取其下载URL
+    echo "\033[1A\033[K[🔎]正在拉取资源 [GET Download URL]"
     download_url=$(echo $assets_response | jq --arg ASSET_NAME "$ASSET_NAME" '.[] | select(.name == $ASSET_NAME) | .browser_download_url' --raw-output)
 # 比较版本号
 if [ "$version" != "$old_version" ]; then
@@ -120,4 +125,4 @@ if [ "$script_version" != "$online_version" ]; then
     curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update.sh
     echo "\033[1A\033[K[🌐]脚本更新完成 [$script_version >> $online_version] ，请重新手动添加Token，也可以手动传参进Token“sh update.sh github_***”"
 fi
-#v5
+#v4
