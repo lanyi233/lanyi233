@@ -10,7 +10,7 @@ ASSET_NAME="sub-store.bundle.js"
 # 版本号存储文件
 ver="version"
 # 脚本版本号
-script_version="v4"
+script_version="v5"
 
 
 
@@ -91,7 +91,7 @@ old_version=$(cat ${ver})
 if [ "$version" != "$old_version" ]; then
     # 输出下载链接并下载
     if [ -n "$download_url" ]; then
-        echo "•==========•\n获取 ${ASSET_NAME} 最新版本下载链接\n版本: ${version}\nURL: ${download_url}\n•==========•"
+        echo "\033[1A\033[K•==========•\n获取 ${ASSET_NAME} 最新版本下载链接\n版本: ${version}\nURL: ${download_url}\n•==========•"
         wget -q --show-progress $download_url -O ${ASSET_NAME}
         echo "•==========•\n[✓][🆕]已更新sub-store为最新版本 [$old_version >> $version]\n•==========•\n"
         # 更新version.txt
@@ -127,4 +127,4 @@ if [ "$script_version" != "$online_version" ]; then
     curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update.sh
     echo "\033[1A\033[K[🌐]脚本更新完成 [$script_version >> $online_version] ，请重新手动添加Token，也可以手动传参进Token“sh update.sh github_***”"
 fi
-#v4
+#v5
