@@ -42,6 +42,8 @@ if [ -n "$1" ]; then
     TOKEN="$1"
 fi
 WCfind(){
+    echo "\033[1A\033[K[🌐]正在更新apt-get资源"
+        apt-get update -y >> /dev/null
     echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr"
     # 检测并安装wget
         apt-get install wget -y >> /dev/null
