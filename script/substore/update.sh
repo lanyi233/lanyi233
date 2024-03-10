@@ -102,7 +102,7 @@ if [ "$version" != "$old_version" ]; then
         echo "\033[1A\033[K•==========•\n[×]不存在资源 “$ASSET_NAME”，可能的原因：\n- 没挂代理，启动代理后再试\n- 你的节点不支持无GitHub Token调用api，请编辑脚本第一行添加你的Token\n- 拉取时间过长，请重新执行脚本\n•=========•"
     fi
 else
-    echo "•=========•\n[📎]当前版本“($old_version)”已是最新，无需更新。\nURL: ${download_url}\n•=========•"
+    echo "\033[1A\033[K•=========•\n[📎]当前版本“($old_version)”已是最新，无需更新。\nURL: ${download_url}\n•=========•"
 fi
 
 
