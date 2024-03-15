@@ -1,0 +1,21 @@
+#!/bin/bash
+(
+
+TOKEN=""
+
+log() {
+    echo -e "[$(date "+%Y-%m-%d_%H:%M:%S")]${hide}$@"
+  }
+  cd ~/substore
+  if [[ $1 == -u || $1 == --update ]]; then
+    log "开始升级sub-store后端版本"
+    sh update.sh "$TOKEN"
+  elif [[ $1 == -h || $1 == --hide ]]; then
+    hide="［hide］"
+    log "当前使用隐私模式运行，将隐藏您的token数据"
+    node sub-store.bundle.js "${@:2}" | sed -E 's/(token=)[a-zA-Z0-9-]+/\1***/g'
+  else
+    log "以默认模式运行"
+    node sub-store.bundle.js "$@"
+  fi
+)
