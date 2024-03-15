@@ -1,7 +1,10 @@
 #!/bin/bash
 
 if [ ! -d "$HOME/substore" ]; then
-echo "正在安装sub-store"
+echo "正在安装sub-store，node"
+
+  apt update -y && apt install nodejs -y
+
   mkdir -p "$HOME/substore" && cd "$HOME/substore"
 
   curl -s -o update.sh "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh" && chmod +x update.sh
