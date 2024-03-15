@@ -10,7 +10,7 @@ ASSET_NAME="sub-store.bundle.js"
 # 版本号存储文件
 ver="version"
 # 脚本版本号
-script_version="v7"
+script_version="v8"
 
 
 
@@ -104,7 +104,7 @@ if [ "$version" != "$old_version" ]; then
 •==========•"
         wget -q --show-progress $download_url -O ${ASSET_NAME}
         # curl -L $download_url -o ${ASSET_NAME} -#
-        echo "•==========•\n[📎]已更新sub-store为最新版本 [$old_version >> $version]\n•==========•\n"
+        echo "•==========•\n[📎]已更新sub-store为最新版本 [$old_version >> $version]\n•==========•"
         # 更新version.txt
         echo $version > ${ver}
         # 写入更新日志到log.txt
@@ -148,14 +148,16 @@ fi
 
 
 
-
+echo "[⏳]正在检测脚本版本"
 online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh | tail -n 1)
 online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
 if [ "$script_version" != "$online_version" ]; then
-    if curl --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
-        echo "[⌛]检测到脚本新版本，正在更新"
+    if curl -s --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
+        echo "\033[1A\033[K[⌛]检测到脚本新版本，正在更新"
         curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update.sh
         echo "\033[1A\033[K[🌐]脚本更新完成 [$script_version >> $online_version] ，请重新手动添加Token，也可以手动传参进Token“sh update.sh github_***”\n•==========•"
     fi
+else
+    echo "\033[1A\033[K"
 fi
-#v7
+#v8
