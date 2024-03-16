@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "此脚本不保证可用性，如想停止执行请 Ctrl+C"
 if [ ! -d "$HOME/substore" ]; then
 echo "正在安装sub-store，node"
 
