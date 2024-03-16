@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# GitHub令牌
+# GitHub令牌（可手动传参）
 TOKEN=""
 
 # 仓库拥有者和仓库名称
@@ -10,7 +10,7 @@ ASSET_NAME="sub-store.bundle.js"
 # 版本号存储文件
 ver="version"
 # 脚本版本号
-script_version="v8"
+script_version="v9"
 
 
 
@@ -136,7 +136,9 @@ fi
 
 
 
-
+NOTICE="$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/notice.txt | shuf -n 1{})"
+echo -e "Tips: ${NOTICE}
+•==========•"
 
 
 
@@ -160,4 +162,4 @@ if [ "$script_version" != "$online_version" ]; then
 else
     echo "\033[1A\033[K"
 fi
-#v8
+#v9
