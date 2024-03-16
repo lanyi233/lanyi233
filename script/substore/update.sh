@@ -137,7 +137,7 @@ fi
 
 
 NOTICE="$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/notice.txt | shuf -n 1)"
-echo -e "Tips: ${NOTICE}
+echo "Tips: ${NOTICE}
 •==========•"
 
 
