@@ -1,1 +1,4 @@
 获取订阅的流量信息的UA 默认是 QX 的 [ https://t.me/zhetengsha_group/593630 ]
+从 前端 2.14.203 开始，订阅链接支持 showRemaining 参数, 此时将显示剩余流量而不是已用流量 [ https://t.me/zhetengsha_group/599832 ]
+订阅链接支持参数 hideExpire 隐藏到期时间 [ https://t.me/zhetengsha/1247 ]
+从 前端 2.14.171 开始，订阅支持标签分组 [ https://t.me/zhetengsha/1247 ]
