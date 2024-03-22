@@ -1,21 +1,348 @@
 #!/bin/bash
-(
+SUB_STORE_FILE="$HOME/substore"
+TOKEN="$(cat $SUB_STORE_FILE/TOKEN)"
+script_version="v2"
+nginx_conf="$SUB_STORE_FILE/nginx/nginx-sub.conf"
 
-TOKEN=""
+# Ctrl+C 回收Nginx
+load_cleanup() {
+    trap cleanup SIGINT
+    cleanup() {
+        echo -e "[⏳]正在清除Nginx服务 [pid: $(cat ./nginx/nginx.pid)]"
+        kill $(cat ./nginx/nginx.pid)
+        echo -e "\033[1A\033[K[✓]清除Nginx服务完成"
+        exit 0
+    }
+}
 
 log() {
     echo -e "[$(date "+%Y-%m-%d_%H:%M:%S")]${hide}$@"
-  }
-  cd ~/substore
-  if [[ $1 == -u || $1 == --update ]]; then
-    log "开始升级sub-store后端版本"
+}
+
+SET_TOKEN() {
+    if [[ -z "$1" ]]; then
+        read -p "输入TOKEN值: " TOKEN
+    else
+      TOKEN="$1"
+    fi
+    if [[ -z "$TOKEN" ]]; then
+        t_TIPS="[❌]无TOKEN输入"
+    else
+        echo "$TOKEN" > $SUB_STORE_FILE/TOKEN
+        t_TIPS="[✓]设置TOKEN成功"
+    fi
+    menu_reset
+}
+# *更新
+update_ALL() {
+    log "开始升级前端与后端"
+    cd $HOME/substore
     sh update.sh "$TOKEN"
-  elif [[ $1 == -h || $1 == --hide ]]; then
-    hide="［hide］"
-    log "当前使用隐私模式运行，将隐藏您的token数据"
-    node sub-store.bundle.js "${@:2}" | sed -E 's/(token=)[a-zA-Z0-9-]+/\1***/g'
-  else
-    log "以默认模式运行"
-    node sub-store.bundle.js "$@"
-  fi
+    sh update_end.sh "$TOKEN"
+    menu_reset
+    menu_update
+}
+update_END() {
+    log "开始升级后端"
+    cd $HOME/substore
+    sh update.sh "$TOKEN"
+    menu_reset
+    menu_update
+}
+update_HUB() {
+    log "开始升级前端"
+    cd $HOME/substore
+    sh update_end.sh "$TOKEN"
+    menu_reset
+    menu_update
+}
+update_MUTE() {
+    echo "[⏳]正在检测菜单版本"
+    online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub | tail -n 1)
+    online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
+    if [ "$script_version" != "$online_version" ]; then
+        if curl -s --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
+            echo -e "\033[1A\033[K[⌛]检测到脚本新版本，正在更新"
+            curl -s "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" -o "$HOME/../usr/bin/sub"
+            chmod +x $HOME/../usr/bin/sub
+            t_TIPS="[🌐]菜单更新完成 [$script_version >> $online_version]"
+        fi
+    else
+        t_TIPS="[↩️没有新版本]"
+    fi
+    echo -e "\033[1A\033[K"
+    echo -e "\033[1A\033[1A\033[K"
+    menu_update
+}
+# *运行
+# run() {
+    # log "以默认模式运行"
+    # cd $HOME/substore
+    # load_cleanup
+    # nginx -c $nginx_conf
+    # node sub-store.bundle.js "$@"
+# }
+# run_hide() {
+    # hide="［hide］"
+    # log "当前使用隐私模式运行，将隐藏您的token数据"
+    # cd $HOME/substore
+    # load_cleanup
+    # nginx -c $nginx_conf
+    # node sub-store.bundle.js "${@:2}" | sed -E 's/(token=)[a-zA-Z0-9-]+/\1***/g'
+# }
+run() {
+(
+    cd $SUB_STORE_FILE
+    if [[ "$HTML_MODE" = "true" ]]; then
+        load_cleanup
+        nginx -c $nginx_conf
+        log "已启动本地前端服务 (pid: $(cat ./nginx/nginx.pid))"
+    fi
+    if [[ "$HIDE_MODE" = "true" ]]; then
+        log "当前使用隐私模式运行，将隐藏您的token数据"
+        node sub-store.bundle.js ${@:1} | sed -E 's/(token=)[a-zA-Z0-9-]+/1***/g'
+    else
+        log "以默认模式运行"
+        node sub-store.bundle.js $@
+    fi
 )
+}
+# *启动
+main() {
+#!/bin/bash
+  if [[ "$1" == "-u" || "$1" == "--update" ]]; then
+     update
+  elif [[ "$1" == "-h" || "$1" == "--hide" ]]; then
+     HIDE_MODE="true"
+     HTML_MODE="true"
+     run
+  elif [[ "$1" == "-r" || "$1" == "--run" ]]; then
+     HIDE_MODE="false"
+     HTML_MODE="true"
+     run
+  elif [[ "$1" == "-t" || "$1" == "--token" ]]; then
+     SET_TOKEN $2
+  else
+     menu_start
+  fi
+}
+
+# •=====[Menu]=====• #
+p_rt="\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[1A\033[K"
+p_k="\033[K"
+p_r="\033[1A"
+
+p_t_to="=>"
+p_t_HOME="Home"
+p_t_RUN="Run"
+p_t_RESET="Reset"
+p_t_UPDATE="Update"
+p_t_SETTING="Setting"
+p_t_OTHER="Other"
+
+menu_start() {
+menu_reset
+sleep 0.1
+menu_home
+}
+
+menu_reset() {
+echo -e "•=====[Sub Store菜单]=====• [${p_t_RESET}]
+1.
+2.
+3.
+4.
+5.
+6.
+7.
+8.
+9.
+-----
+0."
+}
+
+menu_home() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME}]
+${p_k}1.运行Sub Store
+${p_k}2.更新后端/前端/菜单
+${p_k}3.设置
+${p_k}4.其他
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}当前版本 [后端: $(cat $HOME/substore/version)] [前端: $(cat $HOME/substore/version_end)]
+${p_k}-----
+${p_k}0.退出"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        menu_run
+        ;;
+    2)
+        menu_update
+        ;;
+    3)
+        menu_setting
+        ;;
+    4)
+        menu_other
+        ;;
+    0)
+        exit 0
+        ;;
+    *)
+        menu_home
+        ;;
+esac
+}
+
+menu_run() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_RUN}]
+${p_k}1.运行后端+前端
+${p_k}2.仅运行后端
+${p_k}
+${p_k}3.运行后端+前端 [隐私模式]
+${p_k}4.仅运行后端 [隐私模式]
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        HIDE_MODE="false"
+        HTML_MODE="true"
+        run
+        ;;
+    2)
+        HIDE_MODE="false"
+        HTML_MODE="false"
+        run
+        ;;
+    3)
+        HIDE_MODE="true"
+        HTML_MODE="true"
+        run
+        ;;
+    4)
+        HIDE_MODE="true"
+        HTML_MODE="false"
+        run
+        ;;
+    0)
+        menu_home
+        ;;
+    *)
+        menu_run
+        ;;
+esac
+}
+
+menu_update() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_UPDATE}] $t_TIPS
+${p_k}1.更新后端与前端
+${p_k}2.仅后端 [$(cat $HOME/substore/version)]
+${p_k}3.仅前端 [$(cat $HOME/substore/version_end)]
+${p_k}4.更新菜单界面
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        update_ALL
+        ;;
+    2)
+        update_END
+        ;;
+    3)
+        update_HUB
+        ;;
+    4)
+        update_MUTE
+        ;;
+    0)
+        menu_home
+        ;;
+    *)
+        menu_update
+        ;;
+esac
+}
+
+menu_setting() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_SETTING}] $t_TIPS
+${p_k}1.设置GitHub TOKEN
+${p_k}2.修改Nginx配置
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        SET_TOKEN
+        menu_setting
+        ;;
+    2)
+        vim $nginx_conf
+        menu_setting
+        ;;
+    0)
+        menu_home
+        ;;
+    *)
+        menu_setting
+        ;;
+esac
+}
+menu_other() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_OTHER}]
+${p_k}1.Kill Nginx服务
+${p_k}2.
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}9.此脚本作者のTG频道
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        pkill nginx
+        menu_other
+        ;;
+    9)
+        am start -a android.intent.action.VIEW -d "https://t.me/lanyi233_Channel"
+        ;;
+    0)
+        menu_home
+        ;;
+    *)
+        menu_other
+        ;;
+esac
+}
+main $@
+echo ""
+#v2

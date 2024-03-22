@@ -108,7 +108,7 @@ if [ "$version" != "$old_version" ]; then
         # 更新version.txt
         echo $version > ${ver}
         # 写入更新日志到log.txt
-        echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新版本 ${old_version} >> ${version}" >> log.txt
+        echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新后端版本 ${old_version} >> ${version}" >> log.txt
     else
         reason="" # 无法拉取原因
         # 无法拉取原因-GitHub速率

@@ -9,8 +9,8 @@ REPO_NAME="Sub-Store-Front-End"
 ASSET_NAME="dist.zip"
 # 版本号存储文件
 ver="version_end"
-# # 脚本版本号
-# script_version="v8"
+# 脚本版本号
+script_version="v2"
 
 
 
@@ -44,7 +44,7 @@ echo "•=====[Sub-Store 前端更新脚本]=====•"
 WCfind(){
     echo "[🌐]正在更新apt-get资源"
         apt-get update -y >> /dev/null
-    echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq [ ]Tailu [ ]Tr"
+    echo "\033[1A\033[K[🔎]正在寻找[ ]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr"
     # 检测并安装wget
         apt-get install wget -y >> /dev/null
         echo "\033[1A\033[K[🔎]正在寻找[✓]Wget [ ]Curl [ ]jq [ ]Tail [ ]Tr"
@@ -110,7 +110,7 @@ if [ "$version" != "$old_version" ]; then
         # 更新version.txt
         echo $version > ${ver}
         # 写入更新日志到log.txt
-        echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新版本 ${old_version} >> ${version}" >> log.txt
+        echo "[$(date '+%Y-%m-%d_%H:%M:%S')]更新前端版本 ${old_version} >> ${version}" >> log.txt
     else
         reason="" # 无法拉取原因
         # 无法拉取原因-GitHub速率
@@ -122,6 +122,14 @@ if [ "$version" != "$old_version" ]; then
   → 使用GitHub Token访问
     → 将Token作为参数传入脚本 (sh update.sh \"github_***\")
     → 编辑脚本开头，为TOKEN变量添加Token"
+        # 无法拉取原因-GitHub TOKEN错误
+        elif echo "$response" | grep -q "Bad credentials"; then
+        reason="${reason}
+- Github TOKEN错误
+  →更换其他网络重新尝试更新
+  → 更换为可用的GitHub TOKEN
+    → 菜单 - 设置 - TOKEN设置
+    → sub --token \"github_***\""
         # 无法拉取原因-无法访问GitHub
         elif ! curl -s --head -m 10 --request GET https://api.github.com | grep "200 OK" > /dev/null; then
         reason="${reason}
@@ -150,16 +158,16 @@ fi
 
 
 
-# echo "[⏳]正在检测脚本版本"
-# online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh | tail -n 1)
-# online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
-# if [ "$script_version" != "$online_version" ]; then
-    # if curl -s --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
-        # echo "\033[1A\033[K[⌛]检测到脚本新版本，正在更新"
-        # curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update.sh
-        # echo "\033[1A\033[K[🌐]脚本更新完成 [$script_version >> $online_version] ，请重新手动添加Token，也可以手动传参进Token“sh update.sh github_***”\n•==========•"
-    # fi
-# else
-    # echo "\033[1A\033[K"
-# fi
-# #v8
+echo "[⏳]正在检测脚本版本"
+online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update_end.sh | tail -n 1)
+online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
+if [ "$script_version" != "$online_version" ]; then
+    if curl -s --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
+        echo "\033[1A\033[K[⌛]检测到脚本新版本，正在更新"
+        curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh -o update_end.sh
+        echo "\033[1A\033[K[🌐]脚本更新完成 [$script_version >> $online_version] ，请重新手动添加Token，也可以手动传参进Token“sh update.sh github_***”\n•==========•"
+    fi
+else
+    echo "\033[1A\033[K"
+fi
+#v2
