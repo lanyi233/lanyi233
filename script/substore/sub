@@ -96,7 +96,7 @@ run() {
     if [[ "$HTML_MODE" = "true" ]]; then
         load_cleanup
         nginx -c $nginx_conf
-        log "已启动本地前端服务 (pid: $(cat ./nginx/nginx.pid))"
+        log "已启动本地前端服务 (pid: $(cat ./nginx/nginx.pid)), 在游览器访问 http://localhost:3001 以进入前端"
     fi
     if [[ "$HIDE_MODE" = "true" ]]; then
         log "当前使用隐私模式运行，将隐藏您的token数据"
