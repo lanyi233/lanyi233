@@ -7,10 +7,10 @@ echo "正在安装sub-store,zip,node,Nginx(前端服务)"
 (
   mkdir -p "$HOME/substore" && cd "$HOME/substore"
 
-echo "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh
-https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update_end.sh
-https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/nginx.zip
-https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" > substore_install.txt
+echo "https://lanyi233.xyz/script/substore/update.sh
+https://lanyi233.xyz/script/substore/update_end.sh
+https://lanyi233.xyz/script/substore/nginx.zip
+https://lanyi233.xyz/script/substore/sub" > substore_install.txt
 wget -i substore_install.txt
 unzip nginx.zip
 chmod +x sub update.sh update_end.sh
