@@ -1,23 +1,26 @@
 #!/bin/bash
 echo "此脚本不保证可用性，如想停止执行请 Ctrl+C"
 if [ ! -d "$HOME/substore" ]; then
-echo "正在安装sub-store，node,Nginx(前端服务)"
+echo "正在安装sub-store,zip,node,Nginx(前端服务)"
 
-  apt update -y && apt install nodejs nginx -y
-
+  apt update -y && apt install zip nodejs nginx -y
+(
   mkdir -p "$HOME/substore" && cd "$HOME/substore"
 
-  curl -o update.sh "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh" && chmod +x update.sh
-  
-  curl -o update.sh "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh" && chmod +x update_end.sh
-
-  curl -o sub "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" && chmod +x sub && mv "./sub" "$HOME/../usr/bin" 
+echo "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update.sh
+https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/update_end.sh
+https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/nginx.zip
+https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" > substore_install.txt
+wget -i substore_install.txt
+unzip nginx.zip
+chmod +x sub update.sh update_end.sh
+mv "./sub" "$HOME/../usr/bin" 
 
     sub -u
-
+)
 echo "\n\n安装完成，在终端运行 sub 以运行"
 
-rm install.sh
+rm ./install.sh $HOME/substore/nginx.zip $HOME/substore/substore_install.txt
 else
     echo "你已安装sub-store，请在终端运行 sub"
     rm install.sh
