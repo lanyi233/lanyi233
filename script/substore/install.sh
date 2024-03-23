@@ -11,7 +11,7 @@ echo "https://lanyi233.xyz/script/substore/update.sh
 https://lanyi233.xyz/script/substore/update_end.sh
 https://lanyi233.xyz/script/substore/nginx.zip
 https://lanyi233.xyz/script/substore/sub" > substore_install.txt
-wget -i substore_install.txt
+wget -i substore_install.txt -q --show-progress
 unzip nginx.zip
 chmod +x sub update.sh update_end.sh
 mv "./sub" "$HOME/../usr/bin" 
