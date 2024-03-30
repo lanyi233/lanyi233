@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <title>404 - 找不到套餐</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            margin-top: 200px;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            width: 30%;
+            margin: auto;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: #06f;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 20px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>抱歉，此套餐已失效</h1>
+        <p>我们无法找到您要访问的套餐。可能是URL输入错误或者套餐已被移除。</p>
+        <button onclick="window.history.back()">返回上一页</button>
+        <!-- <button onclick="window.location.href='https://www.example.com'">访问主页</button> -->
+    </div>
+</body>
+</html>
