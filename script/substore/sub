@@ -19,6 +19,10 @@ log() {
     echo -e "[$(date "+%Y-%m-%d_%H:%M:%S")]${hide}$@"
 }
 
+START_URL(){
+am start -a android.intent.action.VIEW -d "$@"
+}
+
 SET_TOKEN() {
     if [[ -z "$1" ]]; then
         read -p "输入TOKEN值: " TOKEN
@@ -142,10 +146,8 @@ p_t_OTHER="Other"
 
 menu_start() {
 menu_reset
-sleep 0.1
 menu_home
 }
-
 menu_reset() {
 echo -e "•=====[Sub Store菜单]=====• [${p_t_RESET}]
 1.
@@ -160,7 +162,6 @@ echo -e "•=====[Sub Store菜单]=====• [${p_t_RESET}]
 -----
 0."
 }
-
 menu_home() {
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME}]
 ${p_k}1.运行Sub Store
@@ -197,7 +198,6 @@ case $user_key in
         ;;
 esac
 }
-
 menu_run() {
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_RUN}]
 ${p_k}1.运行后端+前端
@@ -242,7 +242,6 @@ case $user_key in
         ;;
 esac
 }
-
 menu_update() {
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_UPDATE}] $t_TIPS
 ${p_k}1.更新后端与前端
@@ -279,7 +278,6 @@ case $user_key in
         ;;
 esac
 }
-
 menu_setting() {
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_SETTING}] $t_TIPS
 ${p_k}1.设置GitHub TOKEN
@@ -312,16 +310,53 @@ case $user_key in
         ;;
 esac
 }
+menu_debug() {
+
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [DEBUG] $t_TIPS
+${p_k}1.GitHub TOKEN [$(cat $SUB_STORE_FILE/TOKEN)]
+${p_k}2.Nginx config [$(grep 'listen' $nginx_conf | grep -oE '[0-9]+')]
+${p_k}3.set -x (temp)
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+        SET_TOKEN
+        menu_debug
+        ;;
+    2)
+        vim $nginx_conf
+        menu_debug
+        ;;
+    3)
+        set -x
+        menu_debug
+        ;;
+    0)
+        menu_setting
+        ;;
+    *)
+        menu_denug
+        ;;
+esac
+}
 menu_other() {
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_HOME} ${p_t_to} ${p_t_OTHER}]
 ${p_k}1.Kill Nginx服务
-${p_k}2.
 ${p_k}
 ${p_k}
 ${p_k}
 ${p_k}
 ${p_k}
 ${p_k}
+${p_k}9.关于Sub Store
 ${p_k}9.此脚本作者のTG频道
 ${p_k}-----
 ${p_k}0.返回"
@@ -332,17 +367,23 @@ case $user_key in
         pkill nginx
         menu_other
         ;;
+    8)
+        START_URL "https://github.com/sub-store-org"
+        ;;
     9)
-        am start -a android.intent.action.VIEW -d "https://t.me/lanyi233_Channel"
+        START_URL "https://t.me/lanyi233_Channel"
         ;;
     0)
         menu_home
+        ;;
+    debug)
+        menu_debug
         ;;
     *)
         menu_other
         ;;
 esac
 }
-main $@
 echo ""
+main $@
 #v2
