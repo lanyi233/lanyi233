@@ -1,11 +1,66 @@
 <!DOCTYPE html>
-<html lang="zh_cn">
+<html lang="zh-CN">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="refresh" content="0; URL='https://mobile.qzone.qq.com/l?g=1502&i=9a8266c08e63426497130e00&u=3227943578&a=311&sg=84&sharetag=977AA1CD67C3DF7B3267A9F9C3919128&jumptoqzone=1&loginfrom=4'">
+    <meta http-equiv="refresh" content="3; URL='https://mobile.qzone.qq.com/l?g=1502&i=9a8266c08e63426497130e00&u=3227943578&a=311&sg=84&sharetag=977AA1CD67C3DF7B3267A9F9C3919128&jumptoqzone=1&loginfrom=4'">
     <title>页面跳转中</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            margin-top: 200px;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            width: 30%;
+            margin: 0 auto;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+        }
+
+        button {
+            background-color: #06f;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            display: none; /* Initially we hide the button */
+            font-size: 16px;
+            margin: 20px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
-    <p>如果您的浏览器没有自动跳转，请<a href="https://mobile.qzone.qq.com/l?g=1502&i=9a8266c08e63426497130e00&u=3227943578&a=311&sg=84&sharetag=977AA1CD67C3DF7B3267A9F9C3919128&jumptoqzone=1&loginfrom=4">点击这里</a>。</p>
+    <div class="container">
+        <h1>页面跳转中，请稍候</h1>
+        <p>如果您的浏览器没有自动跳转</p>
+        <button id="manualRedirectBtn" onclick="redirect()">点击这里</button>
+    </div>
+    <script>
+        // Function to handle manual redirection
+        function redirect() {
+            window.location.href = 'https://mobile.qzone.qq.com/l?g=1502&i=9a8266c08e63426497130e00&u=3227943578&a=311&sg=84&sharetag=977AA1CD67C3DF7B3267A9F9C3919128&jumptoqzone=1&loginfrom=4';
+        }
+
+        // Check if automatic redirection is disabled
+        window.setTimeout(function() {
+            var button = document.getElementById('manualRedirectBtn');
+            if(document.visibilityState === "visible") {
+                button.style.display = 'inline-block'; // Show the button if the page is still visible
+            }
+        }, 3500); // Adjust time slightly longer than the meta refresh
+    </script>
 </body>
 </html>
