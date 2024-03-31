@@ -1,7 +1,7 @@
 #!/bin/bash
 SUB_STORE_FILE="$HOME/substore"
 TOKEN="$(cat $SUB_STORE_FILE/TOKEN)"
-script_version="v2"
+script_version="v2.0.1"
 nginx_conf="$SUB_STORE_FILE/nginx/nginx-sub.conf"
 
 # Ctrl+C 回收Nginx
@@ -115,7 +115,7 @@ run() {
 main() {
 #!/bin/bash
   if [[ "$1" == "-u" || "$1" == "--update" ]]; then
-     update
+     update_ALL
   elif [[ "$1" == "-h" || "$1" == "--hide" ]]; then
      HIDE_MODE="true"
      HTML_MODE="true"
@@ -386,4 +386,4 @@ esac
 }
 echo ""
 main $@
-#v2
+#v2.0.1
