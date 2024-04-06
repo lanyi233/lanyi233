@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>查看浏览器UA信息</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f7f7f7;
+            text-align: center;
+            padding-top: 100px;
+            color: #333;
+        }
+
+        .container {
+            background: #fff;
+            margin: auto;
+            padding: 40px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            width: 80%;
+            max-width: 500px; /* 设定一个最大宽度 */
+        }
+
+        button {
+            background-color: #06f;
+            color: #fff;
+            border: none;
+            padding: 15px 30px;
+            text-align: center;
+            text-decoration: none;
+            font-size: 16px;
+            margin: 20px 2px;
+            cursor: pointer;
+            border-radius: 5px;
+            transition: background-color 0.3s;
+            width: 35%; /* 按钮宽度随容器变化 */
+            box-sizing: border-box; /* 确保内边距不影响总宽度 */
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        .user-agent {
+            margin-top: 20px;
+            text-align: left;
+            word-wrap: break-word;
+            padding: 0 20px;
+        }
+
+        /* 媒体查询，适应小于768px宽度的屏幕 */
+        @media screen and (max-width: 768px) {
+            body {
+                padding-top: 50px;
+            }
+            .container {
+                width: 90%; /* 在小屏幕上增加宽度占比 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>查看浏览器UA信息</h1>
+        <p></p>
+        <div class="user-agent"></div>
+        <button onclick="showUserAgent()">查看UA</button>
+    </div>
+
+    <script>
+        function showUserAgent() {
+            var uaDiv = document.querySelector('.user-agent');
+            uaDiv.textContent = navigator.userAgent;
+        }
+    </script>
+</body>
+</html>
