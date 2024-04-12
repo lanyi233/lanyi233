@@ -1,6 +1,124 @@
-<!DOCTYPE html>
-<html>
-<head>
-  <title>body</title>
-</body>
+<!doctype html>
+<html lang="zh-CN">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>lanyi233</title>
+        <style>
+            body {
+                font-family: 'Arial', sans-serif;
+                background-color: #f7f7f7;
+                text-align: center;
+                padding-top: 50px;
+                color: #333;
+            }
+            .gallery {
+                display: flex;
+                flex-wrap: wrap;
+                justify-content: center;
+                margin: -10px; /* 用负值抵消容器的margin，让容器紧密排布 */
+            }
+            button {
+                position: absolute; /* 绝对定位 */
+                bottom: 10px; /* 底部位置 */
+                right: 10px; /* 右侧位置 */
+                background-color: #00000000;
+                color: #000000;
+                border: none;
+                padding: 10px 20px;
+                text-align: center;
+                text-decoration: none;
+                font-size: 14px;
+                cursor: pointer;
+                border-radius: 5px;
+                transition: background-color 0.3s;
+            }
+            button:hover {
+                background-color: #0056b3;
+                color: #ffffff;
+            }
+        
+            #telegram-post-widget {
+              position: fixed;
+              top: 10px;
+              left: 10px;
+              width: 300px; /* 或者你希望的宽度 */
+              height: auto; 
+              z-index: 1000;
+              opacity: 0.85;
+              display: none; /* 默认不显示，JavaScript会处理 */
+            }
+        </style>
+    </head>
+    <body>
+        <h1>图片预览</h1>
+        <h5>Ciallo～(∠・ω&lt; )⌒☆.</h5>
+        <h3 id="domain"></h3>
+        <!-- 左上角公告 -->
+        <div id="telegram-post-widget">
+            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="lanyi233_Channel/7" data-width="100%"></script>
+            <script async src="https://telegram.org/js/telegram-widget.js?22" data-telegram-post="HookVipChat/590998" data-width="100%"></script>
+        </div>
+        
+        <div class="gallery"></div>
+        <script type="text/javascript" src="/r/punycode.js"></script>
+        <!-- 公告 -->
+        <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function() {
+          var tgWidget = document.getElementById('telegram-post-widget');
+          
+          // 显示Telegram小部件
+          tgWidget.style.display = 'block';
+        
+          // 设置10秒后自动消失的定时器
+          var hideWidget = function() {
+            tgWidget.style.display = 'none';
+          };
+          var timeout = setTimeout(hideWidget, 10000);
+        
+          // 如果鼠标悬停在小部件上，暂停倒计时
+          tgWidget.addEventListener('mouseenter', function() {
+            clearTimeout(timeout);
+          });
+        
+          // 如果鼠标离开小部件，10秒后隐藏小部件
+          tgWidget.addEventListener('mouseleave', function() {
+            timeout = setTimeout(hideWidget, 10000);
+          });
+        });
+        </script>
+    <script>
+    window.onload = function() {
+        // 获取cookie
+        function getCookie(name) {
+            var cookieArr = document.cookie.split(';');
+            for(var i = 0; i < cookieArr.length; i++) {
+                var cookiePair = cookieArr[i].split('=');
+                if(name == cookiePair[0].trim()) {
+                    return decodeURIComponent(cookiePair[1]);
+                }
+            }
+            return null;
+        }
+
+        // 设置cookie
+        function setCookie(name, value, days) {
+            var expires = "";
+            if (days) {
+                var date = new Date();
+                date.setTime(date.getTime() + (days*24*60*60*1000));
+                expires = "; expires=" + date.toUTCString();
+            }
+            document.cookie = name + "=" + (value || "")  + expires + "; path=/";
+        }
+
+        // 检查cat_view值，并增加其值
+        var catView = getCookie('cat_view');
+        catView = catView ? parseInt(catView) + 1 : 1;
+        setCookie('cat_view', catView, 114514);
+    }
+    </script>
+    </body>
 </html>
+
+<!-- 大部分代码由chatgpt编写（ -->
