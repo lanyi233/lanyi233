@@ -37,7 +37,7 @@
 </head>
 <body>
     <div class="loader"></div>
-    <div id="slowLoadingText">继续之前，需要先检查您的连接的安全性。</div>
+    <div id="slowLoadingText">验证已通过，正在等待服务器响应。</div>
     <script>
         // 设置一个基本延迟时间，单位为毫秒
         // 这将是之后设置间隔时间的基数
@@ -49,7 +49,7 @@
         
         // 设置要显示的消息数组
         var messages = [
-            "验证所用的时间比预期时间长。如果问题仍然存在，请检查您的 Internet 连接并刷新页面。"
+            "响应所用的时间比预期时间长。如果问题仍然存在，请检查您的 Internet 连接并刷新页面。"
         ];
 
         function updateMessage() {
