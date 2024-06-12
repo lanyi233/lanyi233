@@ -1,0 +1,139 @@
+#!/bin/bash
+
+API_URL="http://192.168.0.1:9090/goform/goform_get_cmd_process?cmd=getAllDeviceInfo"
+LOG_FILE="./get.json"
+
+
+
+
+
+
+#		•==========•		#
+#SHELL颜色
+#	•====[重置]====•	#
+COLOR_OFF='\033[0m'			# 重置
+#	•====[常规]====•	#
+BLACK='\033[0;30m'			# 黑色
+RED='\033[0;31m'			# 红色
+GREEN='\033[0;32m'			# 绿色
+YELLOW='\033[0;33m'			# 黄色
+BLUE='\033[0;34m'			# 蓝色
+PURPLE='\033[0;35m'			# 紫色
+CYAN='\033[0;36m'			# 青色
+WHITE='\033[0;37m'			# 白色
+#	•====[粗体]====•	#
+BBLACK='\033[1;30m'			# 黑色
+BRED='\033[1;31m'			# 红色
+BGREEN='\033[1;32m'			# 绿色
+BYELLOW='\033[1;33m'		# 黄色
+BBLUE='\033[1;34m'			# 蓝色
+BPURPLE='\033[1;35m'		# 紫色
+BCYAN='\033[1;36m'			# 青色
+BWHITE='\033[1;37m'			# 白色
+#	•====[下划线]====•	#
+UBLACK='\033[4;30m'			# 黑色
+URED='\033[4;31m'			# 红色
+UGREEN='\033[4;32m'			# 绿色
+UYELLOW='\033[4;33m'		# 黄色
+UBLUE='\033[4;34m'			# 蓝色
+UPURPLE='\033[4;35m'		# 紫色
+UCYAN='\033[4;36m'			# 青色
+UWHITE='\033[4;37m'			# 白色
+#	•====[背景]====•	#
+ON_BLACK='\033[40m'			# 黑色
+ON_RED='\033[41m'			# 红色
+ON_GREEN='\033[42m'			# 绿色
+ON_YELLOW='\033[43m'		# 黄色
+ON_BLUE='\033[44m'			# 蓝色
+ON_PURPLE='\033[45m'		# 紫色
+ON_CYAN='\033[46m'			# 青色
+ON_WHITE='\033[47m'			# 白色
+#		•==========•		#
+
+WLOG(){
+echo "" >> $LOG_FILE
+echo "#>［$(date +"%Y-%m-%d_%H:%M:%S")］<#" >> $LOG_FILE
+echo $getbin | jq >> $LOG_FILE
+}
+# 使用curl命令获取JSON数据
+getbin=$(curl -s "$API_URL")
+
+# 检查是否成功获取到JSON数据
+if [ -z "$getbin" ]; then
+  echo -e "[${RED}ERROR${COLOR_OFF}]无法获取设备信息"
+  exit 1
+else
+ echo -e "[${GREEN}OK${COLOR_OFF}]GET API"
+ echo •==========•
+ WLOG
+fi
+#		计算
+rateup=$(echo "scale=0; $(echo $getbin | jq -r '.rateup') / 1" | bc)
+ratedown=$(echo "scale=0; $(echo $getbin | jq -r '.ratedown') / 1" | bc)
+dataup=$(echo "scale=2; $(echo $getbin | jq -r '.dataup') / 1024" | bc)
+datadown=$(echo "scale=2; $(echo $getbin | jq -r '.datadown') / 1024" | bc)
+#		•==========•		#
+
+#		值
+device="$(echo $getbin | jq -r .device)"
+devtype="$(echo $getbin | jq -r .devtype)"
+version="$(echo $getbin | jq -r .version)"
+verfw="$(echo $getbin | jq -r .verfw)"
+uptime="$(echo $getbin | jq -r .uptime)"
+battery="$(echo $getbin | jq -r .battery)"
+batlevel="$(echo $getbin | jq -r .batlevel)"
+charging="$(echo $getbin | jq -r .charging)"
+discharging="$(echo $getbin | jq -r .discharging)"
+voltage="$(echo $getbin | jq -r .voltage)"
+imei="$(echo $getbin | jq -r .imei)"
+imsi="$(echo $getbin | jq -r .imsi)"
+ispid="$(echo $getbin | jq -r .ispid)"
+rsigdbm="$(echo $getbin | jq -r .rsigdbm)"
+sigtype="$(echo $getbin | jq -r .sigtype)"
+wifissid="$(echo $getbin | jq -r .wifissid)"
+wifipwd="$(echo $getbin | jq -r .wifipwd)"
+ssidhide="$(echo $getbin | jq -r .ssidhide)"
+wifimode="$(echo $getbin | jq -r .wifimode)"
+dns1="$(echo $getbin | jq -r .dns1)"
+dns2="$(echo $getbin | jq -r .dns2)"
+clients="$(echo $getbin | jq -r .clients)"
+clients="$(echo $getbin | jq -r .clients)"
+powermode="$(echo $getbin | jq -r .powermode)"
+logEnable="$(echo $getbin | jq -r .logEnable)"
+#		•==========•		#
+
+#		输出
+echo -e "💠${BBLUE}设备信息${COLOR_OFF}："
+echo -e "| ${CYAN}设备串号${COLOR_OFF}:  ${device}${COLOR_OFF}"
+echo -e "| ${CYAN}设备类型${COLOR_OFF}:  ${devtype}${COLOR_OFF}"
+echo -e "| ${CYAN}版本${COLOR_OFF}:      ${version}${COLOR_OFF}"
+echo -e "| ${CYAN}固件版本${COLOR_OFF}:  ${verfw}${COLOR_OFF}"
+echo -e "└ ${CYAN}在线时长${COLOR_OFF}:  ${uptime}s${COLOR_OFF}"
+echo -e •==========•
+echo -e "🔋${BBLUE}电池信息${COLOR_OFF}："
+echo -e "| ${GREEN}电量${COLOR_OFF}:      ${YELLOW}${battery}${COLOR_OFF}"
+echo -e "| ${GREEN}电量等级${COLOR_OFF}:  ${YELLOW}${batlevel}${COLOR_OFF}"
+echo -e "| ${GREEN}充电状态${COLOR_OFF}:  ${YELLOW}${charging}${COLOR_OFF}"
+echo -e "| ${GREEN}放电状态${COLOR_OFF}:  ${YELLOW}${discharging}${COLOR_OFF}"
+echo -e "└ ${GREEN}电压${COLOR_OFF}:      ${YELLOW}${voltage}${COLOR_OFF}"
+echo -e •==========•
+echo -e "🌐${BBLUE}网络信息${COLOR_OFF}："
+# echo -e "| ${GREEN}IMEI${COLOR_OFF}:      ${YELLOW}${imei}${COLOR_OFF}"
+# echo -e "| ${GREEN}IMSI${COLOR_OFF}:      ${YELLOW}${imsi}${COLOR_OFF}"
+echo -e "| ${GREEN}运营商ID${COLOR_OFF}:  ${YELLOW}${ispid}${COLOR_OFF}"
+echo -e "| ${GREEN}信号强度${COLOR_OFF}:  ${YELLOW}${rsigdbm}${COLOR_OFF} ${CYAN}dBm${COLOR_OFF}"
+echo -e "| ${GREEN}信号类型${COLOR_OFF}:  ${YELLOW}${sigtype}${COLOR_OFF}"
+echo -e "| ${GREEN}速率${COLOR_OFF}:      ${YELLOW}${rateup}${COLOR_OFF} ${CYAN}Kbps${COLOR_OFF} ↑ 丨 ${YELLOW}${ratedown}${COLOR_OFF} ${CYAN}Kbps${COLOR_OFF} ↓"
+echo -e "└ ${GREEN}数据量${COLOR_OFF}:    ${YELLOW}${dataup}${COLOR_OFF} ${CYAN}MB${COLOR_OFF} ↑ 丨 ${YELLOW}${datadown}${COLOR_OFF} ${CYAN}MB${COLOR_OFF} ↓"
+echo -e •==========•
+echo -e "🔑${BBLUE}WiFi信息${COLOR_OFF}："
+echo -e "| ${GREEN}SSID${COLOR_OFF}:      ${YELLOW}${wifissid}${COLOR_OFF}"
+echo -e "| ${GREEN}PWD${COLOR_OFF}:       ${YELLOW}${wifipwd}${COLOR_OFF}"
+echo -e "| ${GREEN}HIDE${COLOR_OFF}:      ${YELLOW}${ssidhide}${COLOR_OFF}"
+echo -e "| ${GREEN}WiFi频段${COLOR_OFF}:  ${YELLOW}${wifimode}  ${PURPLE}[${COLOR_OFF}${CYAN}0${COLOR_OFF}：${YELLOW}2.4Ghz${COLOR_OFF}、${CYAN}1${COLOR_OFF}：${YELLOW}5.8Ghz${COLOR_OFF}${PURPLE}]${COLOR_OFF}"
+echo -e "| ${GREEN}DNS${COLOR_OFF}:       [${YELLOW}${dns1}${COLOR_OFF}丨${YELLOW}${dns2}${COLOR_OFF}]"
+echo -e "└ ${GREEN}已连接设备${COLOR_OFF}:${clients}${COLOR_OFF}"
+echo -e •==========•
+echo -e "📃${BBLUE}其他信息${COLOR_OFF}："
+echo -e "| ${GREEN}电源模式${COLOR_OFF}:  ${YELLOW}${powermode}${COLOR_OFF}"
+echo -e "└ ${GREEN}日志记录${COLOR_OFF}:  ${YELLOW}${logEnable}${COLOR_OFF}"
