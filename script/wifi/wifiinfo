@@ -111,7 +111,7 @@ echo -e "| ${CYAN}固件版本${COLOR_OFF}:  ${verfw}${COLOR_OFF}"
 echo -e "└ ${CYAN}在线时长${COLOR_OFF}:  ${uptime}s${COLOR_OFF}"
 echo -e •==========•
 echo -e "🔋${BBLUE}电池信息${COLOR_OFF}："
-echo -e "| ${GREEN}电量${COLOR_OFF}:      ${YELLOW}${battery}${COLOR_OFF}"
+echo -e "| ${GREEN}电量${COLOR_OFF}:      ${YELLOW}${battery}%${COLOR_OFF}"
 echo -e "| ${GREEN}电量等级${COLOR_OFF}:  ${YELLOW}${batlevel}${COLOR_OFF}"
 echo -e "| ${GREEN}充电状态${COLOR_OFF}:  ${YELLOW}${charging}${COLOR_OFF}"
 echo -e "| ${GREEN}放电状态${COLOR_OFF}:  ${YELLOW}${discharging}${COLOR_OFF}"
