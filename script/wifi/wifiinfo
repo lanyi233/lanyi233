@@ -53,7 +53,7 @@ ON_WHITE='\033[47m'			# 白色
 WLOG(){
 echo "" >> $LOG_FILE
 echo "#>［$(date +"%Y-%m-%d_%H:%M:%S")］<#" >> $LOG_FILE
-echo $getbin | jq >> $LOG_FILE
+# echo $getbin | jq >> $LOG_FILE
 }
 # 使用curl命令获取JSON数据
 getbin=$(curl -s "$API_URL")
