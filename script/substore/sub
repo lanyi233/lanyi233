@@ -63,12 +63,12 @@ update_HUB() {
 }
 update_MUTE() {
     echo "[⏳]正在检测菜单版本"
-    online_version=$(curl -s https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub | tail -n 1)
+    online_version=$(curl -s --resolve raw.githubusercontent.com:443:185.199.109.133 https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub | tail -n 1)
     online_version=$(echo $online_version | grep -oP '#v.*' | tr -d '#')
     if [ "$script_version" != "$online_version" ]; then
         if curl -s --connect-timeout 5 https://raw.githubusercontent.com > /dev/null; then
             echo -e "\033[1A\033[K[⌛]检测到脚本新版本，正在更新"
-            curl -s "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" -o "$HOME/../usr/bin/sub"
+            curl -s --resolve raw.githubusercontent.com:443:185.199.109.133 "https://raw.githubusercontent.com/lanyi233/lanyi233/master/script/substore/sub" -o "$HOME/../usr/bin/sub"
             chmod +x $HOME/../usr/bin/sub
             t_TIPS="[🌐]菜单更新完成 [$script_version >> $online_version]"
         fi
