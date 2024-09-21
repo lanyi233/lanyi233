@@ -1,7 +1,7 @@
 #!/bin/bash
 SUB_STORE_FILE="$HOME/substore"
 TOKEN="$(cat $SUB_STORE_FILE/TOKEN)"
-script_version="v2.0.1"
+script_version="v2.0.1.1"
 nginx_conf="$SUB_STORE_FILE/nginx/nginx-sub.conf"
 
 # Ctrl+C 回收Nginx
@@ -25,7 +25,8 @@ am start -a android.intent.action.VIEW -d "$@"
 
 SET_TOKEN() {
     if [[ -z "$1" ]]; then
-        read -p "输入TOKEN值: " TOKEN
+        #read -p "输入TOKEN值: " TOKEN
+        TOKEN=$(dialog --stdout --inputbox "请输入TOKEN值:" 10 40)
     else
       TOKEN="$1"
     fi
@@ -97,6 +98,7 @@ update_MUTE() {
 run() {
 (
     cd $SUB_STORE_FILE
+    # termux-notification --title "Sub Store" --content "[Sub Store]已启动Sub Store服务" --channel "sub-store" --button1 "Run" --button1-action "run" --button2 "kill" --button2-action "cleanup" --button3 "3" --button3-action "sleep 5"    
     if [[ "$HTML_MODE" = "true" ]]; then
         load_cleanup
         nginx -c $nginx_conf
@@ -311,12 +313,11 @@ case $user_key in
 esac
 }
 menu_debug() {
-
 echo -e "${p_rt}•=====[Sub Store菜单]=====• [DEBUG] $t_TIPS
 ${p_k}1.GitHub TOKEN [$(cat $SUB_STORE_FILE/TOKEN)]
 ${p_k}2.Nginx config [$(grep 'listen' $nginx_conf | grep -oE '[0-9]+')]
 ${p_k}3.set -x (temp)
-${p_k}
+${p_k}4.PUSH
 ${p_k}
 ${p_k}
 ${p_k}
@@ -339,11 +340,46 @@ case $user_key in
         set -x
         menu_debug
         ;;
+    4)
+        memu_push
+        menu_debug
+        ;;
     0)
         menu_setting
         ;;
     *)
         menu_denug
+        ;;
+esac
+}
+menu_push() {
+echo -e "${p_rt}•=====[Sub Store菜单]=====• [${p_t_PUSH}] $t_TIPS
+${p_k}1.Termux API => content
+${p_k}2.ntfy
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}
+${p_k}-----
+${p_k}0.返回"
+read -p "输入序号: " user_key
+
+case $user_key in
+    1)
+    
+        menu_push
+        ;;
+    2)
+        menu_push
+        ;;
+    0)
+        menu_home
+        ;;
+    *)
+        menu_push
         ;;
 esac
 }
